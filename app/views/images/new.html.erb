@@ -1,0 +1,13 @@
+<% if @image.errors.any? %>
+  The form contains <%= pluralize(@image.errors.count, "error") %>
+  <ul>
+    <% @image.errors.full_messages.each do |msg| %>
+      <li> <%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= simple_form_for Image.new do |f| %>
+  <%= f.input :url %>
+  <%= f.button :submit %>
+<% end %>
