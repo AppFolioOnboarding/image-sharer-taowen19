@@ -26,7 +26,7 @@ jobs:
       # Install cmake, build-eseential since gem build with native extension needs it
       - run:
           name: Install cmake needed by rugged
-          command: sudo apt-get update && sudo apt-get install cmake
+          command: sudo apt-get install cmake
 
       - run:
           name: Install and start geckodriver
