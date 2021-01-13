@@ -1,10 +1,13 @@
 require 'test_helper'
 
-URL = 'https://learn.appfolio.com/apm/www/images/apm-mobile-nav2-logo.png'.freeze
-
 class ImagesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @image = images(:one)
+    @valid_image = images(:valid_image)
+    @invalid_image = images(:invalid_image)
+  end
+
+  teardown do
+    Rails.cache.clear
   end
 
   test 'should get index' do
@@ -19,7 +22,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create image' do
     assert_difference('Image.count') do
-      post images_url, params: { image: { url: URL } }
+      post images_url, params: { image: { url: @valid_image.url } }
     end
 
     assert_response :success
@@ -27,14 +30,14 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should not create image' do
     assert_no_difference('Image.count') do
-      post images_url, params: { image: { url: '' } }
+      post images_url, params: { image: { url: @invalid_image.url } }
     end
 
     assert_response :success
   end
 
   test 'should show image' do
-    get image_url(@image)
+    get image_url(@valid_image)
     assert_response :success
   end
 end
