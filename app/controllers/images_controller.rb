@@ -17,10 +17,8 @@ class ImagesController < ActionController::Base
     @image = Image.new(url: params.require(:image)[:url])
 
     if @image.save
-      # redirect_to @image.url
       render :show
     else
-      puts 'save failed'
       render :new
     end
   end
