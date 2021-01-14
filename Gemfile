@@ -17,6 +17,10 @@ gem 'jquery-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'simple_form'
+
+gem 'pry'
+
 gem 'webpacker', '~> 4'
 
 group :development, :test do

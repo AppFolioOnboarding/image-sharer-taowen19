@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+valid_image:
+  url: 'https://learn.appfolio.com/apm/www/images/apm-mobile-nav2-logo.png'
+
+invalid_image:
+  url: 'https://.com'
