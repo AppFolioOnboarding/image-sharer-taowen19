@@ -6,17 +6,17 @@ class ImageTest < ActiveSupport::TestCase
     @invalid_image = images(:invalid_image)
   end
 
-  test 'should not save image without url' do
+  def test_save_image_with_empty_url__failure
     image = Image.new
-    assert_not image.save, 'Saved the image without a url'
+    refute image.save, 'Saved the image without a url'
   end
 
-  test 'should not save image without a valid url' do
+  def test_save_image_with_invalid_url__failure
     image = Image.new(url: @invalid_image.url)
-    assert_not image.save, 'Saved the image without a valid url'
+    refute image.save, 'Saved the image without a valid url'
   end
 
-  test 'should save image with a valid url successfully' do
+  def test_save_image_with_valid_url__success
     image = Image.new(url: @valid_image.url)
     assert image.save, 'Saved the image with a valid url successfully'
   end

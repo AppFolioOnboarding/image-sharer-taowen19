@@ -10,25 +10,25 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Rails.cache.clear
   end
 
-  test 'should get index' do
+  def test_index__success
     get images_url
     assert_response :success
   end
 
-  test 'should get new' do
+  def test_new__success
     get new_image_url
     assert_response :success
   end
 
-  test 'should create image' do
-    assert_difference('Image.count') do
+  def test_create__success
+    assert_difference('Image.count', 1) do
       post images_url, params: { image: { url: @valid_image.url } }
     end
 
     assert_response :success
   end
 
-  test 'should not create image' do
+  def test_create__failure
     assert_no_difference('Image.count') do
       post images_url, params: { image: { url: @invalid_image.url } }
     end
@@ -36,7 +36,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should show image' do
+  def test_show__success
     get image_url(@valid_image)
     assert_response :success
   end
