@@ -21,7 +21,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_create__success
-    assert_difference('Image.count', 1) do
+    assert_difference 'Image.count', 1 do
       post images_url, params: { image: { url: @valid_image.url } }
     end
 
@@ -29,7 +29,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_create__failure
-    assert_no_difference('Image.count') do
+    assert_no_difference 'Image.count' do
       post images_url, params: { image: { url: @invalid_image.url } }
     end
 
