@@ -24,12 +24,14 @@ Image.create([
 
   { url: 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Scottsview3.1.jpg' },
 
-  { url: 'https://tennishead.net/wp-content/uploads/2019/11/Novak-Djokovic-Roger-Federer-Wimbledon-2019-watch-ATP-tennis-on-TV-in-2020.jpg' },
+  { url: 'https://tennishead.net/wp-content/uploads/2019/11
+    /Novak-Djokovic-Roger-Federer-Wimbledon-2019-watch-ATP-tennis-on-TV-in-2020.jpg' },
   { url: 'https://media.tacdn.com/media/attractions-splice-spp-674x446/06/73/10/c0.jpg' },
 
   { url: 'https://dhvu905wjl8ow.cloudfront.net/apm/assets/hero_accounting_reporting_550x357.png' },
 
-  { url: 'https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_d802dea7f1678da63e137f59839ab6b0/appfolio-property-manager.png' },
+  { url: 'https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_d802dea7f1678da63e137f59839ab6b0
+    /appfolio-property-manager.png' },
 
   { url: 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Scottsview3.1.jpg' },
 
