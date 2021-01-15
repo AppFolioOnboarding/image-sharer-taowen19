@@ -13,6 +13,19 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   def test_index__success
     get images_url
     assert_response :success
+
+    assert_select 'table' do
+      assert_select 'tr:nth-child(1)' do
+        assert_select 'td' do
+          assert_select '[src=?]', @valid_image.url
+        end
+      end
+      assert_select 'tr:nth-child(2)' do
+        assert_select 'td' do
+          assert_select '[src=?]', @invalid_image.url
+        end
+      end
+    end
   end
 
   def test_new__success
