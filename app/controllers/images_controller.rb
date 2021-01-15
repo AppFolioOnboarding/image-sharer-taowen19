@@ -2,7 +2,7 @@ class ImagesController < ActionController::Base
   protect_from_forgery with: :exception
 
   def index
-    @image = Image.all
+    @images = Image.all.reverse
   end
 
   def show
