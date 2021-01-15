@@ -1,7 +1,11 @@
 <h1>Image</h1>
 
-<ul>
-  <% @image.each do |image| %>
-      <img src=<%= image.url %>></img>  
+<table>
+  <% @images.each do |image| %>
+    <tr>
+      <td>
+        <%= image_tag image.url, id: image.id, created_at: image.created_at, width: "400", height: "300" %>
+      </td>
+    </tr>     
   <% end %>
-</ul>
+</table>
