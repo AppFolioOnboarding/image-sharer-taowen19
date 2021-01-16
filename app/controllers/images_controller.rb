@@ -15,6 +15,7 @@ class ImagesController < ActionController::Base
 
   def create
     @image = Image.new(url: params.require(:image)[:url])
+    @image.tag_list.add(params.require(:image)[:tags].split)
 
     if @image.save
       render :show
