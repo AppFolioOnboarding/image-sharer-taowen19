@@ -1,2 +1,3 @@
 <a href="/">Home Page</a>
-<img src=<%= @image.url %>></img>  
+<h1><%= @image.tag_list %></h1>
+<%= image_tag @image.url, id: @image.id, tags: @image.tag_list %>
