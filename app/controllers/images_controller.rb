@@ -14,12 +14,19 @@ class ImagesController < ActionController::Base
   end
 
   def create
-    @image = Image.new(url: params.require(:image)[:url])
+    @image = Image.new(url: image_params[:url])
+    @image.tag_list.add(image_params[:tags].split)
 
     if @image.save
       render :show
     else
       render :new
     end
+  end
+
+  private
+
+  def image_params
+    params.require(:image).permit(:url, :tags)
   end
 end

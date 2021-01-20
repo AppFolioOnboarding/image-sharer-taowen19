@@ -9,5 +9,7 @@
 
 <%= simple_form_for Image.new do |f| %>
   <%= f.input :url %>
+  <%= f.input :tags, input_html: { value: '' }%>
+  <%= f.label 'Separate your tags by space please!' %>
   <%= f.button :submit %>
 <% end %>

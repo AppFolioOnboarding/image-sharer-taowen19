@@ -4,7 +4,12 @@
   <% @images.each do |image| %>
     <tr>
       <td>
-        <%= image_tag image.url, id: image.id, created_at: image.created_at, width: "400", height: "300" %>
+        <%= image_tag image.url, id: image.id, created_at: image.created_at, width: "400", height: "300", tags: image.tag_list %>
+      </td>
+      <td>
+        <% image.tag_list.each do |tag| %>
+          <p><%= tag %></p>
+        <% end %>
       </td>
     </tr>     
   <% end %>
