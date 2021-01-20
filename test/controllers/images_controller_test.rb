@@ -49,6 +49,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal %w[], Image.first.tag_list
     assert_response :success
+    assert_template :show
   end
 
   def test_create_with_tags__success
@@ -58,6 +59,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal %w[tag1 tag2], Image.first.tag_list
     assert_response :success
+    assert_template :show
   end
 
   def test_create__failure
@@ -65,6 +67,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       post images_url, params: { image: { url: @invalid_image_url, tags: '' } }
     end
 
+    assert_template :new
     assert_response :success
   end
 
