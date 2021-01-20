@@ -1,5 +1,5 @@
 <h1>Image</h1>
-
+<%= content_tag(:p, "Nonexistent Images") if @images.blank? %>
 <table>
   <% @images.each do |image| %>
     <tr>
@@ -8,7 +8,7 @@
       </td>
       <td>
         <% image.tag_list.each do |tag| %>
-          <p><%= tag %></p>
+          <%= link_to tag, images_url(tag: tag) %>
         <% end %>
       </td>
     </tr>     
