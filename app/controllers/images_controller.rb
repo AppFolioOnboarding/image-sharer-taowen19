@@ -25,9 +25,14 @@ class ImagesController < ActionController::Base
     end
   end
 
+  def destroy
+    Image.destroy(image_params[:id])
+    redirect_to images_path
+  end
+
   private
 
   def image_params
-    params.require(:image).permit(:url, :tags)
+    params.require(:image).permit(:url, :tags, :id)
   end
 end

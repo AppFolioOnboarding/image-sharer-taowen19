@@ -1,3 +1,4 @@
+<%= javascript_include_tag 'application' %>
 <h1>Image</h1>
 <%= content_tag(:p, "There are no images to be displayed.") if @images.blank? %>
 <table>
@@ -10,6 +11,11 @@
         <% image.tag_list.each do |tag| %>
           <%= link_to tag, images_path(tag: tag) %>
         <% end %>
+      </td>
+      <td>
+        <%= button_to "Delete Image", { action: "destroy", id: image },
+                                method: :delete, data: {confirm: 'Are you sure?'}, 
+params: {"image": {"id": image.id, "url": image.url, "tags": image.tag_list} } %>
       </td>
     </tr>     
   <% end %>

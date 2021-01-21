@@ -105,4 +105,18 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_select '[tags=?]', 'tag1 tag2'
     end
   end
+
+  def test_destroy
+    Image.create!(url: @valid_image_url, id: 1)
+    image_to_delete = Image.create!(url: @valid_image_url, id: 2)
+    assert_difference 'Image.count', -1 do
+      delete image_url(image_to_delete), params: { image: { url: @valid_image_url, tags: '', id: 2 } }
+    end
+    assert_response :redirect
+    assert_redirected_to images_path
+    follow_redirect!
+    assert_select 'table>tr:nth-child(1)>td>img' do
+      assert_select '[id=?]', '1'
+    end
+  end
 end
