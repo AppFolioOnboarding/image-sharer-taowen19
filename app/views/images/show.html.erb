@@ -1,7 +1,7 @@
 <a href="/">Home Page</a>
 <div>
   <% @image.tag_list.each do |tag| %>
-      <%= link_to tag, images_url(tag: tag) %>
+      <%= link_to tag, images_path(tag: tag) %>
   <% end %>
 </div>
 
