@@ -1,3 +1,8 @@
 <a href="/">Home Page</a>
-<h1><%= @image.tag_list %></h1>
+<div>
+  <% @image.tag_list.each do |tag| %>
+      <%= link_to tag, images_path(tag: tag) %>
+  <% end %>
+</div>
+
 <%= image_tag @image.url, id: @image.id, tags: @image.tag_list %>
