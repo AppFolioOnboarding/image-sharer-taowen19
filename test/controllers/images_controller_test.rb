@@ -125,10 +125,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create!(url: @valid_image_url, id: 1, tag_list: %w[tag1])
     image_to_delete = Image.create!(url: @valid_image_url, id: 2, tag_list: %w[tag1])
     assert_difference 'Image.count', -1 do
-      delete image_path(image_to_delete), params: { filtered_tag: 'tag1'}
+      delete image_path(image_to_delete), params: { filtered_tag: 'tag1' }
     end
 
-    puts request.params
     assert_response :redirect
     assert_redirected_to images_path(tag: 'tag1')
     follow_redirect!

@@ -29,8 +29,8 @@ class ImagesController < ActionController::Base
   def destroy
     @image = Image.find params[:id]
     @image.destroy!
-    if params[:filterd_tag].present?
-      redirect_to images_path(tag: params[:filterd_tag])
+    if params[:filtered_tag].present?
+      redirect_to images_path(tag: params[:filtered_tag])
     else
       redirect_to images_path
     end

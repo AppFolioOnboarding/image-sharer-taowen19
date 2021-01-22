@@ -15,9 +15,9 @@
         <% end %>
       </td>
       <td>
-        <%= button_to "Delete Image", { action: "destroy", id: image },
+        <%= button_to "Delete Image", { action: "destroy", id: image.id },
                                 method: :delete, data: {confirm: 'Are you sure?'}, 
-params: { "filterd_tag": @filtered_tag} %>
+params: { "filtered_tag": @filtered_tag} %>
       </td>
     </tr>     
   <% end %>
