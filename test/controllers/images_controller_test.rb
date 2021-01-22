@@ -11,8 +11,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index__success
-    Image.create!(url: @valid_image_url, id: 1, tag_list: '')
-    Image.create!(url: @valid_image_url, id: 2, tag_list: 'tag1 tag2')
+    Image.create!(url: @valid_image_url, id: 1, tag_list: %w[tag1])
+    Image.create!(url: @valid_image_url, id: 2, tag_list: %w[tag1 tag2])
     get images_url
     assert_response :success
     assert_select 'table>tr:nth-child(1)>td>img' do
@@ -21,22 +21,23 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select 'table>tr:nth-child(2)>td>img' do
       assert_select '[id=?]', '1'
-      assert_select '[tags=?]', ''
+      assert_select '[tags=?]', 'tag1'
     end
   end
 
   def test_index_with_tag_filter__success
-    Image.create!(url: @valid_image_url, id: 1, tag_list: 'tag1')
-    Image.create!(url: @valid_image_url, id: 2, tag_list: 'tag2')
-    assert_equal Image.tagged_with('tag1').count, 1
-    get images_url(tag: 'tag2')
+    Image.create!(url: @valid_image_url, id: 1, tag_list: %w[tag1])
+    Image.create!(url: @valid_image_url, id: 2, tag_list: %w[tag1 tag2])
+    assert_equal Image.tagged_with('tag2').count, 1
+    get images_url(tag: 'tag1')
     assert_response :success
-    assert_select 'table' do
-      assert_select 'tr:count', 1
-      assert_select 'tr:nth-child(1)>td>img' do
-        assert_select '[id=?]', '2'
-        assert_select '[tags=?]', 'tag2'
-      end
+    assert_select 'table>tr:nth-child(1)>td>img' do
+      assert_select '[id=?]', '2'
+      assert_select '[tags=?]', 'tag1 tag2'
+    end
+    assert_select 'table>tr:nth-child(2)>td>img' do
+      assert_select '[id=?]', '1'
+      assert_select '[tags=?]', 'tag1'
     end
   end
 

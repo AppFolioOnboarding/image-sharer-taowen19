@@ -3,7 +3,7 @@ class ImagesController < ActionController::Base
 
   def index
     @images = Image.all.reverse
-    @images = Image.tagged_with(params[:tag]) if params[:tag].present?
+    @images = Image.tagged_with(params[:tag]).reverse if params[:tag].present?
   end
 
   def show
