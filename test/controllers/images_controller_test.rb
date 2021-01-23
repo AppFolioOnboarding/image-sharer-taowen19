@@ -11,40 +11,33 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index__success
-    Image.create!(url: @valid_image_url, id: 1, tag_list: '')
-    Image.create!(url: @valid_image_url, id: 2, tag_list: 'tag1 tag2')
+    Image.create!(url: @valid_image_url, id: 1, tag_list: %w[tag1])
+    Image.create!(url: @valid_image_url, id: 2, tag_list: %w[tag1 tag2])
     get images_url
     assert_response :success
-    assert_select 'table' do
-      assert_select 'tr:nth-child(1)' do
-        assert_select 'td>img' do
-          assert_select '[id=?]', '2'
-          assert_select '[tags=?]', 'tag1 tag2'
-        end
-      end
-      assert_select 'tr:nth-child(2)' do
-        assert_select 'td>img' do
-          assert_select '[id=?]', '1'
-          assert_select '[tags=?]', ''
-        end
-      end
+    assert_select 'table>tr:nth-child(1)>td>img' do
+      assert_select '[id=?]', '2'
+      assert_select '[tags=?]', 'tag1 tag2'
+    end
+    assert_select 'table>tr:nth-child(2)>td>img' do
+      assert_select '[id=?]', '1'
+      assert_select '[tags=?]', 'tag1'
     end
   end
 
   def test_index_with_tag_filter__success
-    Image.create!(url: @valid_image_url, id: 1, tag_list: 'tag1')
-    Image.create!(url: @valid_image_url, id: 2, tag_list: 'tag2')
-    assert_equal Image.tagged_with('tag1').count, 1
-    get images_url(tag: 'tag2')
+    Image.create!(url: @valid_image_url, id: 1, tag_list: %w[tag1])
+    Image.create!(url: @valid_image_url, id: 2, tag_list: %w[tag1 tag2])
+    assert_equal Image.tagged_with('tag2').count, 1
+    get images_url(tag: 'tag1')
     assert_response :success
-    assert_select 'table' do
-      assert_select 'tr:count', 1
-      assert_select 'tr:nth-child(1)' do
-        assert_select 'td>img' do
-          assert_select '[id=?]', '2'
-          assert_select '[tags=?]', 'tag2'
-        end
-      end
+    assert_select 'table>tr:nth-child(1)>td>img' do
+      assert_select '[id=?]', '2'
+      assert_select '[tags=?]', 'tag1 tag2'
+    end
+    assert_select 'table>tr:nth-child(2)>td>img' do
+      assert_select '[id=?]', '1'
+      assert_select '[tags=?]', 'tag1'
     end
   end
 
@@ -52,9 +45,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get images_url(tag: 'tag2')
     assert_response :success
     assert_select 'p', 'There are no images to be displayed.'
-    assert_select 'table' do
-      assert_select 'tr:count', 0
-    end
+    assert_select 'table>tr:count', 0
   end
 
   def test_new__success
@@ -92,17 +83,57 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     image = Image.create!(url: @valid_image_url, id: 1, tag_list: %w[tag1 tag2])
     get image_url(image)
     assert_response :success
-    assert_select 'div' do
-      assert_select 'a:first-child' do
-        assert_select "a:match('href',?)", %r{.*/images\?tag=tag1}
-      end
-      assert_select 'a:last-child' do
-        assert_select "a:match('href',?)", %r{.*/images\?tag=tag2}
-      end
+    assert_select 'div>a:first-child' do
+      assert_select "a:match('href',?)", %r{.*/images\?tag=tag1}
     end
+    assert_select 'div>a:last-child' do
+      assert_select "a:match('href',?)", %r{.*/images\?tag=tag2}
+    end
+
     assert_select 'img' do
       assert_select '[id=?]', '1'
       assert_select '[tags=?]', 'tag1 tag2'
+    end
+  end
+
+  def test_destroy__success
+    Image.create!(url: @valid_image_url, id: 1)
+    image_to_delete = Image.create!(url: @valid_image_url, id: 2)
+    assert_difference 'Image.count', -1 do
+      delete image_url(image_to_delete)
+    end
+    assert_response :redirect
+    assert_redirected_to images_path
+    follow_redirect!
+    assert_select 'table>tr:nth-child(1)>td>img' do
+      assert_select '[id=?]', '1'
+    end
+  end
+
+  def test_destroy_last_image__success
+    image_to_delete = Image.create!(url: @valid_image_url, id: 2)
+    assert_difference 'Image.count', -1 do
+      delete image_url(image_to_delete)
+    end
+    assert_response :redirect
+    assert_redirected_to images_path
+    follow_redirect!
+    assert_select 'p', 'There are no images to be displayed.'
+  end
+
+  def test_destroy_with_filter__success
+    Image.create!(url: @valid_image_url, id: 1, tag_list: %w[tag1])
+    image_to_delete = Image.create!(url: @valid_image_url, id: 2, tag_list: %w[tag1])
+    assert_difference 'Image.count', -1 do
+      delete image_path(image_to_delete), params: { filtered_tag: 'tag1' }
+    end
+
+    assert_response :redirect
+    assert_redirected_to images_path(tag: 'tag1')
+    follow_redirect!
+    assert_select 'p', 'Tag: tag1'
+    assert_select 'table>tr:nth-child(1)>td>img' do
+      assert_select '[id=?]', '1'
     end
   end
 end

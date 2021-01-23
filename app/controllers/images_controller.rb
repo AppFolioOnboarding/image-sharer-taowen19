@@ -3,7 +3,8 @@ class ImagesController < ActionController::Base
 
   def index
     @images = Image.all.reverse
-    @images = Image.tagged_with(params[:tag]) if params[:tag].present?
+    @images = Image.tagged_with(params[:tag]).reverse if params[:tag].present?
+    @filtered_tag = params[:tag] if params[:tag].present?
   end
 
   def show
@@ -22,6 +23,16 @@ class ImagesController < ActionController::Base
       render :show
     else
       render :new
+    end
+  end
+
+  def destroy
+    @image = Image.find params[:id]
+    @image.destroy!
+    if params[:filtered_tag].present?
+      redirect_to images_path(tag: params[:filtered_tag])
+    else
+      redirect_to images_path
     end
   end
 
